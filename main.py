@@ -1,15 +1,15 @@
 import discord
 from discord.ext import commands
-import os
 
-TOKEN = os.getenv("TOKEN")  # IMPORTANT
+TOKEN = "PASTE_YOUR_TOKEN_HERE"  # or use env later
 
 RITESH_ID = 711594344611577947
+TIGER_ID = 692341086638833664
 
 ALLOWED_CHANNELS = [
-    1458799579037171712,
-    1246895842581938279,
-    1495763871242391662 # ticket
+    1458799579037171712,  # Career Mode
+    1246895842581938279,  # Maharaja Lounge
+    1495763871242391662,  # ticket
 ]
 
 intents = discord.Intents.default()
@@ -30,10 +30,18 @@ async def on_message(message):
         return
 
     content_lower = message.content.lower()
+    mentioned_ids = [user.id for user in message.mentions]
 
-    if any(user.id == RITESH_ID for user in message.mentions) and "pirep" in content_lower:
+    # ===== RITESH =====
+    if RITESH_ID in mentioned_ids and "pirep" in content_lower:
         await message.channel.send(
             f"{message.author.mention} Ritesh will check PIREPs in a few hours."
+        )
+
+    # ===== TIGER =====
+    elif TIGER_ID in mentioned_ids and "pirep" in content_lower:
+        await message.channel.send(
+            f"{message.author.mention} TIGER_ANI checks PIREPs roughly every 24 hours. Thanks for your patience."
         )
 
     await bot.process_commands(message)
